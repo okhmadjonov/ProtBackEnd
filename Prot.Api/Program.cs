@@ -3,6 +3,8 @@ using Prot.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Prot.Api.Middlewares;
+using Prot.Api.Configurations;
+using Prot.Service.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,13 +34,13 @@ builder.Logging.ClearProviders();
 //builder.Logging.AddSerilog(logger).AddConsole();
 
 // Configure custom service configurations
-/*
+
 builder.Services.AddServiceFunctionsConfiguration()
-              .AddErrorFilter()
-              .AddImageSizeMax()
-              .AddServiceConfig()
-              .AddSwaggerService(builder.Configuration);
-*/
+              //.AddErrorFilter()
+              //.AddImageSizeMax()
+              .AddServiceConfig();
+             // .AddSwaggerService(builder.Configuration);
+
 // Configure JSON serialization
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -70,7 +72,7 @@ app.UseCors(builder =>
 });
 
 app.UseStaticFiles();
-app.UseMiddleware<ProtMiddleware>();
+//app.UseMiddleware<ProtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
