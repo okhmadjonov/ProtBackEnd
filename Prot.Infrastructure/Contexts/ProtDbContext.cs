@@ -9,10 +9,7 @@ namespace Prot.Infrastructure.Contexts;
 public class ProtDbContext : DbContext
 {
     public ProtDbContext(DbContextOptions<ProtDbContext> options) : base(options)
-    {
-    }
-
-
+    {}
 
     public DbSet<Gender> Genders { get; set; }
     public DbSet<GenderConnectUser> GenderConnectUsers { get; set; }

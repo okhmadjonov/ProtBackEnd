@@ -1,8 +1,9 @@
-﻿using Prot.Domain.Entities.Users;
+﻿using Prot.Domain.Commons;
+using Prot.Domain.Entities.Users;
 
 namespace Prot.Domain.Entities.Genders;
 
-public class GenderConnectUser
+public class GenderConnectUser:Auditable
 {
     public Gender Gender { get; set; }
     public int GenderId { get; set; }

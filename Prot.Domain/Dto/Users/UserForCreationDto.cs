@@ -11,7 +11,7 @@ public class UserForCreationDto
     public string Phonenumber { get; set; }
 
     [Required]
-    public IFormFile ImageUrl { get; set; }
+    public IFormFile? ImageUrl { get; set; }
 
     [Required]
     public string Name { get; set; }
