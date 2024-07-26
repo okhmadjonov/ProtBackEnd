@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Prot.Domain.Entities.Game;
 using Prot.Domain.Entities.Genders;
 using Prot.Domain.Entities.Users;
 using Prot.Infrastructure.Configurations;
@@ -14,6 +15,8 @@ public class ProtDbContext : DbContext
     public DbSet<Gender> Genders { get; set; }
     public DbSet<GenderConnectUser> GenderConnectUsers { get; set; }
     public DbSet<User> Users { get; set; }
+
+    public DbSet<VerificationCode> VerificationCodes { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

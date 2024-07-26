@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Prot.Infrastructure.Contexts;
+using Prot.Api.Configurations;
+using Prot.Service.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Prot.Api.Middlewares;
-using Prot.Api.Configurations;
-using Prot.Service.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,24 +21,28 @@ builder.Services.AddDbContext<ProtDbContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
+
+
 // Configure Serilog for logging
-/*
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
-*/
+
 builder.Logging.ClearProviders();
-//builder.Logging.AddSerilog(logger).AddConsole();
+builder.Logging.AddSerilog(logger).AddConsole();
 
 // Configure custom service configurations
-
 builder.Services.AddServiceFunctionsConfiguration()
-              //.AddErrorFilter()
-              //.AddImageSizeMax()
-              .AddServiceConfig();
-             // .AddSwaggerService(builder.Configuration);
+              .AddErrorFilter()
+              .AddImageSizeMax()
+              .AddServiceConfig()
+              .AddSwaggerService(builder.Configuration);
+
+
+
+
 
 // Configure JSON serialization
 builder.Services.AddControllers().AddNewtonsoftJson(options =>

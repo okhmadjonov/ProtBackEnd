@@ -24,14 +24,14 @@ public class GendersController : ControllerBase
     => ResponseHandler.ReturnResponseList(await _genderRepository.GetAll(@params));
 
     [HttpPost]
-   // [Authorize]
+    [Authorize]
     [ProducesResponseType(typeof(ResponseModel<GenderModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseModel<>), StatusCodes.Status400BadRequest)]
     public async ValueTask<IActionResult> CreateAsync([FromBody] GenderDto genderDto)
         => ResponseHandler.ReturnIActionResponse(await _genderRepository.CreateAsync(genderDto));
 
     [HttpDelete("{id}")]
-    //[Authorize]
+    [Authorize]
     [ProducesResponseType(typeof(ResponseModel<bool>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseModel<>), StatusCodes.Status400BadRequest)]
     public async ValueTask<IActionResult> DeleteAsync([FromRoute] int id)
@@ -46,7 +46,7 @@ public class GendersController : ControllerBase
 
 
     [HttpPut]
-   // [Authorize]
+   [Authorize]
     [ProducesResponseType(typeof(ResponseModel<GenderModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseModel<>), StatusCodes.Status400BadRequest)]
     public async ValueTask<IActionResult> UpdateAsync(int id, [FromBody] GenderDto genderDto)

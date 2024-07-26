@@ -14,10 +14,11 @@ public class RegisterValidator : AbstractValidator<UserForCreationDto>
             .WithMessage("Name can only contain letters and spaces.");
 
         RuleFor(x => x.Phonenumber)
-            .NotEmpty()
-            .WithMessage("Phone number is required")
-            .Matches(@"^\+?[1-9]\d{12}$") 
-            .WithMessage("Invalid phone number. It must be exactly 12 digits with an optional leading + sign.");
+       .NotEmpty()
+       .WithMessage("Phone number is required")
+       .Matches(@"^\d{12}$")
+       .WithMessage("Invalid phone number. It must be exactly 12 digits.");
+
 
         RuleFor(x => x.Password)
             .NotEmpty()
