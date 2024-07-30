@@ -74,7 +74,6 @@ public sealed class UsersController : ControllerBase
         return ResponseHandler.ReturnIActionResponse(await _userRepository.UpdateAsync(id, userForUpdateDTO));
     }
 
-    /*------------------------------------------Telegram------------------------------------------------*/
-
+  
 
 }

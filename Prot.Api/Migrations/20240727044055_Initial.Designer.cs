@@ -12,8 +12,8 @@ using Prot.Infrastructure.Contexts;
 namespace Prot.Api.Migrations
 {
     [DbContext(typeof(ProtDbContext))]
-    [Migration("20240726082810_Telegram")]
-    partial class Telegram
+    [Migration("20240727044055_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace Prot.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Prot.Domain.Entities.Game.TelegramChat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ChatId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.ToTable("TelegramChats");
+                });
 
             modelBuilder.Entity("Prot.Domain.Entities.Genders.Gender", b =>
                 {
@@ -148,30 +178,6 @@ namespace Prot.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Prot.Domain.Entities.TelegramCode.VerificationCode", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VerificationCodes");
-                });
-
             modelBuilder.Entity("Prot.Domain.Entities.Users.User", b =>
                 {
                     b.Property<int>("Id")
@@ -238,6 +244,37 @@ namespace Prot.Api.Migrations
                             Surename = "Fergyusson",
                             UpdatedAt = new DateTime(2024, 7, 24, 10, 13, 56, 461, DateTimeKind.Utc)
                         });
+                });
+
+            modelBuilder.Entity("Prot.Domain.Entities.Users.UserConnectTelegram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TelegramChatId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TelegramChatId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserConnectTelegrams");
                 });
 
             modelBuilder.Entity("Prot.Domain.Entities.Genders.Gender", b =>
@@ -311,9 +348,40 @@ namespace Prot.Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Prot.Domain.Entities.Users.UserConnectTelegram", b =>
+                {
+                    b.HasOne("Prot.Domain.Entities.Game.TelegramChat", "TelegramChat")
+                        .WithOne("UserConnectTelegram")
+                        .HasForeignKey("Prot.Domain.Entities.Users.UserConnectTelegram", "TelegramChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Prot.Domain.Entities.Users.User", "User")
+                        .WithOne("UserConnectTelegram")
+                        .HasForeignKey("Prot.Domain.Entities.Users.UserConnectTelegram", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TelegramChat");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Prot.Domain.Entities.Game.TelegramChat", b =>
+                {
+                    b.Navigation("UserConnectTelegram")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Prot.Domain.Entities.Genders.Gender", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Prot.Domain.Entities.Users.User", b =>
+                {
+                    b.Navigation("UserConnectTelegram")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,6 @@ using Prot.Service.Services.Users;
 
 namespace Prot.Service.Extentions;
 
-
 public static class AddExtensionServices
 {
     public static IServiceCollection AddServiceConfig(
@@ -21,7 +20,6 @@ public static class AddExtensionServices
         services.AddScoped<IAuthRepository, AuthService>();
         services.AddScoped<ITokenRepository, TokenService>();
         services.AddScoped<IUserRepository, UserService>();
-   
         return services;
     }
 }

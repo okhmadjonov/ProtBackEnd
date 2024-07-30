@@ -3,10 +3,8 @@ using Prot.Api.Configurations;
 using Prot.Service.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Prot.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Configure services
 builder.Services.AddControllers();
@@ -20,6 +18,9 @@ builder.Services.AddDbContext<ProtDbContext>(options =>
     );
     options.EnableSensitiveDataLogging();
 });
+
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
 
 
 
@@ -66,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     //  app.UseHttpsRedirection();
 }
+
+
 
 app.UseCors(builder =>
 {

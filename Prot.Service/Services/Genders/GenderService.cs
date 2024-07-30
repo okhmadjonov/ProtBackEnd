@@ -78,10 +78,7 @@ internal sealed class GenderService : IGenderRepository
             {
                 existingGender.Title.RU = genderDto.Title.RU;
             }
-            if (genderDto.Title.EN != null)
-            {
-                existingGender.Title.EN = genderDto.Title.EN;
-            }
+          
         }
         existingGender.UpdatedAt = DateTime.UtcNow;
 

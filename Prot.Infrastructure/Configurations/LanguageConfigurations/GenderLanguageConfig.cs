@@ -13,7 +13,7 @@ public class GenderLanguageConfig
             {
                 title.Property(t => t.RU).HasColumnName("Title_RU");
                 title.Property(t => t.UZ).HasColumnName("Title_UZ");
-                title.Property(t => t.EN).HasColumnName("Title_EN");
+               
             });
         });
     }

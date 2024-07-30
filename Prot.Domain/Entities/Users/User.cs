@@ -1,4 +1,5 @@
 ﻿using Prot.Domain.Commons;
+using Prot.Domain.Entities.Game;
 
 namespace Prot.Domain.Entities.Users;
 
@@ -12,7 +13,7 @@ public class User : Auditable
     public int GenderId { get; set; }
     public string City { get; set; }
     public string Password { get; set; }
-    
     public decimal Balance { get; set; }
 
+   
 }

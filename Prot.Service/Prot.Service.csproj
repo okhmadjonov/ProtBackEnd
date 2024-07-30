@@ -37,4 +37,9 @@
     <ProjectReference Include="..\Prot.Infrastructure\Prot.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\Games\" />
+    <Folder Include="Services\Games\" />
+  </ItemGroup>
+
 </Project>

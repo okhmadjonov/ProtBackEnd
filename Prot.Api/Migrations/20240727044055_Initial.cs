@@ -46,6 +46,22 @@ namespace Prot.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TelegramChats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    ChatId = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TelegramChats", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -90,6 +106,34 @@ namespace Prot.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GenderConnectUsers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserConnectTelegrams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    TelegramChatId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserConnectTelegrams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserConnectTelegrams_TelegramChats_TelegramChatId",
+                        column: x => x.TelegramChatId,
+                        principalTable: "TelegramChats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserConnectTelegrams_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -150,6 +194,24 @@ namespace Prot.Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TelegramChats_PhoneNumber",
+                table: "TelegramChats",
+                column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserConnectTelegrams_TelegramChatId",
+                table: "UserConnectTelegrams",
+                column: "TelegramChatId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserConnectTelegrams_UserId",
+                table: "UserConnectTelegrams",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
                 table: "UserRole",
                 column: "RoleId");
@@ -167,10 +229,16 @@ namespace Prot.Api.Migrations
                 name: "GenderConnectUsers");
 
             migrationBuilder.DropTable(
+                name: "UserConnectTelegrams");
+
+            migrationBuilder.DropTable(
                 name: "UserRole");
 
             migrationBuilder.DropTable(
                 name: "Genders");
+
+            migrationBuilder.DropTable(
+                name: "TelegramChats");
 
             migrationBuilder.DropTable(
                 name: "Role");
